@@ -123,7 +123,6 @@ exports.dataRoutes = testCase({
      */
     async.series([
       function (callback) {
-        // hrm. should a player be updated _automatically_ on a result save
         seed_players([{
             name: 'player1', wins: 0, losses: 0, goals_for: 0, goals_against: 0
           }, {
