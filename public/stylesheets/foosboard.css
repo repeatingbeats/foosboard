@@ -1,0 +1,131 @@
+
+body {
+  background-color: #DDD;
+  margin: 0;
+  padding: 0;
+}
+
+abbr {
+  border-bottom: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+#header a:link,
+#header a:visited,
+#header a:active { color: #6E421F }
+#header a:hover { color: #888 }
+
+a:link,
+a:visited,
+a:active { color: #18712F }
+a:hover { color: #888 }
+
+#page {
+  background-image: url('/images/foosball-ghosted.png');
+  background-repeat: no-repeat;
+  background-color: #dce8e6;
+  margin: 0 auto;
+  padding: 0;
+  width: 600px;
+  font-family: Lucida Grande;
+  min-height: 1200px;
+  -webkit-box-shadow: 0px -4px 3px 4px rgba(150, 150, 150, 0.4);
+  -moz-box-shadow: 0px -4px 3px 4px rgba(150, 150, 150, 0.4);
+}
+
+
+#header {
+  padding: 20px 50px;
+}
+
+#header h2 {
+  margin: 0;
+  font-size: 2.0em;
+}
+
+.section_header {
+  background-color: rgba(240, 240, 240, 0.6);
+  border-top: 1px solid #BBB;
+  border-bottom: 1px solid #BBB;
+}
+
+.section_header h3 {
+  margin: 8px 50px;
+}
+
+.section_content {
+  padding: 20px 50px;
+}
+
+#leaderboard table {
+  width: 500px;
+  border-spacing: 0px;
+}
+
+#leaderboard table td {
+  padding: 5px;
+  border-bottom: 1px dotted #AAA;
+}
+
+#board_header td {
+  border-top: 1px dotted #AAA;
+}
+
+#board_header {
+  font-weight: bold;
+}
+
+#recent table,
+#history table {
+  width: 500px;
+}
+
+#recent table td,
+#history table td {
+  padding: 5px;
+  border-bottom: 1px dotted #AAA;
+}
+
+.results_list {
+  list-style-type: none;
+  padding-left: 0px;
+}
+
+ul.input {
+  list-style-type: none;
+}
+
+ul.input li {
+  display: inline-block;
+}
+
+.entry_box {
+  border: 1px solid #CCC;
+  padding: 5px 20px;
+  background-color: #EEE;
+  margin-bottom: 20px;
+}
+
+form select {
+  margin-left: 15px;
+}
+
+#login {
+  margin-top: 20px;
+}
+
+.flash {
+  border-top: 2px solid #F66;
+  border-bottom: 2px solid #F66;
+  background-color: #FDD;
+  color: #000;
+  margin-bottom: 20px;
+}
+
+.flash p {
+  margin: 5px 5px;
+}
+

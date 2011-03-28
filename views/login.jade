@@ -1,0 +1,11 @@
+div.section_header
+  h3 enter match result 
+div.section_content
+  - if (flash_msg)
+    div.flash
+      p #{flash_msg}
+  h3 PROVE IT 
+  form#login_form(action='/login', method='post')
+    input(type='password', name='skeleton_key')
+    br
+    input#login(type='submit', value='ok, let me in')

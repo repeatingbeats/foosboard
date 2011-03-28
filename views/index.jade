@@ -1,0 +1,40 @@
+#leaderboard
+  div.section_header
+    h3 standings
+  div.section_content
+    table
+      tr#board_header
+        td PLAYER
+        td
+          abbr(title='Wins') W
+        td
+          abbr(title='Losses') L
+        td
+          abbr(title='Winning Percentage') PCT
+        td
+          abbr(title='Goals Scored per Game') GS/G
+        td
+          abbr(title='Goals Allowed per Game') GA/G
+#recent
+  div.section_header
+    h3 recent results
+  div.section_content
+    table.results 
+      tbody
+    p
+      a(href='/history') show all
+      \ 
+      | \| 
+      a(href='/enter') enter new
+#matchups
+  div.section_header
+    h3 matchups
+  div.section_content
+    p head-to-head results and stats coming soon ...
+script
+  $('document').ready(function() {
+    $.ajaxSetup({ cache: false });
+    Foosboard.scoreboard($, { div: '#leaderboard' });
+    Foosboard.results($, { limit: 5, div: '#recent' });
+  });
+

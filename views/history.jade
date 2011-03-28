@@ -1,0 +1,11 @@
+#history
+  div.section_header
+    h3 all results 
+  div.section_content
+    table.results 
+      tbody
+script
+  $('document').ready(function() {
+    $.ajaxSetup({ cache: false });
+    Foosboard.results($, { div: '#history' });
+  });

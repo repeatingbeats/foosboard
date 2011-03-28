@@ -1,0 +1,28 @@
+div.section_header
+  h3 enter match result
+div.section_content
+  - if (flash_msg)
+    div.flash
+      p #{flash_msg}
+  form#entry_form(action='/results', method='post')
+    div#winner_entry
+      div.entry_box
+        h4 WINNER:
+          select(name='winner')
+            - for (var player in players)
+              - var name = players[player].name
+              option(value=name) #{name} 
+        h4 GOALS: 10
+    div#loser_entry
+      div.entry_box
+        h4 LOSER:
+          select(name='loser')
+            - for (var player in players)
+              - var name = players[player].name
+              option(value=name) #{name} 
+        h4 GOALS:
+          select(name='loser_goals')
+            - for (var i=0; i < 10; i++)
+              option #{i}
+    div#entry_submit
+      input(type='submit', value='enter')
