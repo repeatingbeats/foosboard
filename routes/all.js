@@ -89,6 +89,91 @@ module.exports = function(app) {
     });
   });
 
+  // Get the matchup data. Should probably cache this somewhere and only
+  // recompute after new scores are entered.
+  app.get('/matchups', function (req, res) {
+
+    app.Player.find({}, function (err, players) {
+      if (err) res.send('WHOOPS');
+
+      // Call an async function for each pair in the document array. Invoke
+      // callback when all of the pair funcs have called back.
+      function for_each_pair(docs, pairFunc, callback) {
+        var funcs = [];
+
+        docs.forEach(function (a, i) {
+          docs.forEach(function (b, j) {
+            if (i < j) {
+              funcs.push(function (callback) {
+                pairFunc(a, b, callback);
+              });
+            }
+          });
+        });
+
+        async.parallel(funcs, callback);
+      }
+
+      // Get head to head stats for matches where player a beat player b
+      function head_to_head(a, b) {
+        return function(callback) {
+          app.Result.find({
+            winner: a.name,
+            loser: b.name
+          }, function (err, results) {
+            if (err) return callback(err);
+            var stats = {
+              name: a.name,
+              wins: results.length,
+              winner_goals: 0,
+              loser_goals: 0
+            };
+            results.forEach(function (result) {
+              stats.winner_goals += result.winner_goals;
+              stats.loser_goals += result.loser_goals;
+            });
+            callback(null, stats);
+          });
+        };
+      }
+
+      var matchups = [];
+
+      for_each_pair(players, function (a, b, callback) {
+
+        funcs = {};
+        funcs[a.name] = head_to_head(a, b);
+        funcs[b.name] = head_to_head(b, a);
+
+        async.parallel(funcs, function (err, stats) {
+          if (err) return res.send('WHOOPS!');
+
+          function stats_to_matchup(winner, loser) {
+            return {
+              name: stats[winner].name,
+              wins: stats[winner].wins,
+              losses: stats[loser].wins,
+              goals_for: stats[winner].winner_goals +
+                         stats[loser].loser_goals,
+              goals_against: stats[winner].loser_goals +
+                             stats[loser].winner_goals
+            };
+          }
+
+          var matchup = [ stats_to_matchup(a.name, b.name),
+                          stats_to_matchup(b.name, a.name) ];
+          matchups.push(matchup);
+          callback();
+        });
+
+      }, function (err, empty_result) {
+        if (err) return res.send('WHOOPS!');
+        res.contentType('json');
+        res.send(matchups);
+      });
+    });
+  });
+
   app.post('/results', function(req, res) {
 
     var winner_goals = 10,
