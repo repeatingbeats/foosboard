@@ -477,5 +477,42 @@ exports.dataRoutes = testCase({
     });
   },
 
+  'GET /matchups should return matchup data': function (test) {
+    test.expect(3);
+
+    request({
+      uri: app_base_uri + '/matchups'
+    }, function (err, res, body) {
+      if (body.match(/Cannot/)) return test.done();
+      var matchups = JSON.parse(body);
+
+      function hasMatchup(pa, pb, paw, pbw, pagf, pbgf) {
+        for (var i = 0; i < matchups.length; i++) {
+          var matchup = matchups[i];
+          if ((matchup[0].name == pa &&
+               matchup[0].wins == paw &&
+               matchup[0].goals_for == pagf &&
+               matchup[1].name == pb &&
+               matchup[1].wins == pbw &&
+               matchup[1].goals_for == pbgf) ||
+              (matchup[0].name == pa &&
+               matchup[0].wins == paw &&
+               matchup[0].goals_for == pagf &&
+               matchup[1].name == pb &&
+               matchup[1].wins == pbw &&
+               matchup[1].goals_for == pbgf))
+          {
+            return true;
+          }
+        }
+        return false;
+      }
+      test.ok(hasMatchup('player1', 'player2', 1, 0, 10, 5));
+      test.ok(hasMatchup('player1', 'player3', 1, 0, 10, 3));
+      test.ok(hasMatchup('player2', 'player3', 1, 0, 10, 7));
+
+      test.done();
+    });
+  }
 });
 
