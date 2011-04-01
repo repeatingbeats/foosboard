@@ -6,7 +6,7 @@ set :user,        "slloyd"
 set :deploy_to,   "/var/www/foosboard.soundhacks.com"
 set :use_sudo,    false
 set :scm,         :git
-set :repository,  "git@github.com:repeatingbeats/foosboard"
+set :repository,  "git@github.com:repeatingbeats/foosboard.git"
 set :deploy_via,  :remote_cache
 set :branch,      "master"
 
