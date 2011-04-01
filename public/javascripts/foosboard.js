@@ -17,6 +17,11 @@ var Foosboard = (function() {
         second
     ;
 
+    // Don't show empty matchups
+    if (player_a.wins == 0 && player_b.wins == 0) {
+      return null;
+    }
+
     if (player_a.wins >= player_b.wins) {
       first = player_a;
       second = player_b;
@@ -69,7 +74,9 @@ var Foosboard = (function() {
         data.forEach(function (matchup) {
           summary = summarize(matchup);
           // triple ewwww
-          $(selector).append('<tr><td>' + summary.first + '</td><td>' + summary.rel + '</td><td>' + summary.second + '</td><td>' + summary.record + '</td></tr>');
+          if (summary) {
+            $(selector).append('<tr><td>' + summary.first + '</td><td>' + summary.rel + '</td><td>' + summary.second + '</td><td>' + summary.record + '</td></tr>');
+          }
         });
       });
     }
