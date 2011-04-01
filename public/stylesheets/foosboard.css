@@ -78,11 +78,13 @@ a:hover { color: #888 }
   font-weight: bold;
 }
 
+#matchups table,
 #recent table,
 #history table {
   width: 500px;
 }
 
+#matchups table td,
 #recent table td,
 #history table td {
   padding: 5px;

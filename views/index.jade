@@ -30,11 +30,13 @@
   div.section_header
     h3 matchups
   div.section_content
-    p head-to-head results and stats coming soon ...
+    table.matchups
+      tbody
 script
   $('document').ready(function() {
     $.ajaxSetup({ cache: false });
     Foosboard.scoreboard($, { div: '#leaderboard' });
     Foosboard.results($, { limit: 5, div: '#recent' });
+    Foosboard.matchups($, { div: '#matchups' });
   });
 

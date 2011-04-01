@@ -9,6 +9,31 @@ var Foosboard = (function() {
     return out;
   }
 
+  function summarize(matchup) {
+    var player_a = matchup[0],
+        player_b = matchup[1],
+        summary = {},
+        first,
+        second
+    ;
+
+    player_a = matchup[0];
+    player_b = matchup[1];
+    if (player_a.wins >= player_b.wins) {
+      first = player_a;
+      second = player_b;
+    } else {
+      second = player_a;
+      first = player_b;
+    }
+    summary.rel = (first.wins == second.wins) ? 'ties' : 'leads';
+    summary.first = first.name;
+    summary.second = second.name;
+    summary.record = first.wins + '-' + second.wins;
+
+    return summary;
+  }
+
   return {
 
     results: function ($, options) {
@@ -36,6 +61,17 @@ var Foosboard = (function() {
         data.forEach(function(row) {
           // ewwww
           $(selector).after('<tr><td>' + row.name + '</td><td>' + row.wins + '</td><td>' + row.losses + '</td><td>' + row.pct.toFixed(2) + '</td><td>' + row.goals_for.toFixed(1) + '</td><td>' + row.goals_against.toFixed(1) + '</td></tr>');
+        });
+      });
+    },
+
+    matchups: function ($, options) {
+      $.getJSON('/matchups', function (data) {
+        var selector = options['div'] + ' tbody';
+        data.forEach(function (matchup) {
+          summary = summarize(matchup);
+          // triple ewwww
+          $(selector).append('<tr><td>' + summary.first + '</td><td>' + summary.rel + '</td><td>' + summary.second + '</td><td>' + summary.record + '</td></tr>');
         });
       });
     }
