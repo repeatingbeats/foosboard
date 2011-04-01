@@ -17,8 +17,6 @@ var Foosboard = (function() {
         second
     ;
 
-    player_a = matchup[0];
-    player_b = matchup[1];
     if (player_a.wins >= player_b.wins) {
       first = player_a;
       second = player_b;
