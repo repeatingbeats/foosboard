@@ -26,4 +26,4 @@ This is a foosboard. Prove your dominance.
         $ mongo
         > use foosboard-test
         > db.players.remove({})
-        > db.restuls.remove({})
+        > db.results.remove({})
