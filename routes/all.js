@@ -89,39 +89,45 @@ module.exports = function(app) {
     });
   });
 
-  app.get('/ratings', function (req, res) {
+  app.get('/player_ratings', function (req, res) {
     res.render('ratings.jade');
   });
 
-  // Compute rankings. This should be cached and updated when a new result is
+  // Compute ratings. This should be cached and updated when a new result is
   // entered, so that this only returns the cached data (but could be used to
   // recompute it if desired?)
-  app.get('/ranking', function (req, res) {
+  app.get('/ratings', function (req, res) {
     // Some parameters. Will need experimenting
+    const initialRating = 100;
     const a = 400;
     const K = 16;
 
     app.Player.find({}, function (err, players) {
-      var ranks = {};
+      var ratings = {};
       players.forEach(function (player) {
-        ranks[player.name] = 100;
+        ratings[player.name] = initialRating;
       });
+      // TODO: do we need this, or do we get them in order by default? Need to
+      // read some mongodb docs.
       var options = { sort: { 'date': 1 }};
       app.Result.find({}, [], options, function (err, results) {
         results.forEach(function (result) {
-          var ratingDifference = ranks[result.loser] - ranks[result.winner];
+          var ratingDifference = ratings[result.loser] - ratings[result.winner];
           // Probability that the winner won.
+          // TODO: Consider variant algorithms that take into account winning
+          // margin, etc. Then adjust parameters (a, K) to figure out what
+          // values actually make sense.
           var probWin = 1 / (Math.exp(ratingDifference/a) + 1);
 
-          // Adjust ranks.
-          ranks[result.winner] += K * (1 - probWin);
-          ranks[result.loser] += K * (-1 + probWin);
+          // Adjust ratings
+          ratings[result.winner] += K * (1 - probWin);
+          ratings[result.loser] += K * (-1 + probWin);
         });
 
         // Turn into an array; sort by decreasing rating.
         var results = [];
-        for (var player in ranks) {
-          results.push({name: player, rating: ranks[player]});
+        for (var player in ratings) {
+          results.push({name: player, rating: ratings[player]});
         }
         results.sort(function(a, b) {
           return a.rating - b.rating;

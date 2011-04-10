@@ -82,7 +82,7 @@ var Foosboard = (function() {
     },
 
     ratings: function ($, options) {
-      $.getJSON('/ranking', function (data) {
+      $.getJSON('/ratings', function (data) {
         var selector = options['div'] + ' tbody';
         data.forEach(function(row) {
           // more ewwww
