@@ -44,7 +44,11 @@ function seed_result(data, callback) {
 exports.renderedRoutes = testCase({
 
   setUp: function renderedRoutesSetup(startTest) { 
-    startTest();
+    // TODO: Don't understand why yet, but we don't have a working server
+    // started synchronously; wait a while before actually running the tests.
+    setTimeout(function() {
+      startTest();
+    }, 50);
   },
 
   tearDown: function renderedRoutesTearDown(endTest) {
