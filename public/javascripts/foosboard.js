@@ -79,7 +79,18 @@ var Foosboard = (function() {
           }
         });
       });
-    }
+    },
+
+    ratings: function ($, options) {
+      $.getJSON('/ranking', function (data) {
+        var selector = options['div'] + ' tbody';
+        data.forEach(function(row) {
+          // more ewwww
+          // TODO: round ratings to integer?
+          $(selector).after('<tr><td>' + row.name + '</td><td>' + row.rating + '</td></tr>');
+        });
+      });
+    },
 
   };
 
