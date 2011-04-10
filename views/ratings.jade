@@ -1,0 +1,11 @@
+#ratings
+  div.section_header
+    h3 all ratings 
+  div.section_content
+    table.ratings 
+      tbody
+script
+  $('document').ready(function() {
+    $.ajaxSetup({ cache: false });
+    Foosboard.ratings($, { div: '#ratings' });
+  });

@@ -89,6 +89,50 @@ module.exports = function(app) {
     });
   });
 
+  app.get('/ratings', function (req, res) {
+    res.render('ratings.jade');
+  });
+
+  // Compute rankings. This should be cached and updated when a new result is
+  // entered, so that this only returns the cached data (but could be used to
+  // recompute it if desired?)
+  app.get('/ranking', function (req, res) {
+    // Some parameters. Will need experimenting
+    const a = 400;
+    const K = 16;
+
+    app.Player.find({}, function (err, players) {
+      var ranks = {};
+      players.forEach(function (player) {
+        ranks[player.name] = 100;
+      });
+      var options = { sort: { 'date': 1 }};
+      app.Result.find({}, [], options, function (err, results) {
+        results.forEach(function (result) {
+          var ratingDifference = ranks[result.loser] - ranks[result.winner];
+          // Probability that the winner won.
+          var probWin = 1 / (Math.exp(ratingDifference/a) + 1);
+
+          // Adjust ranks.
+          ranks[result.winner] += K * (1 - probWin);
+          ranks[result.loser] += K * (-1 + probWin);
+        });
+
+        // Turn into an array; sort by decreasing rating.
+        var results = [];
+        for (var player in ranks) {
+          results.push({name: player, rating: ranks[player]});
+        }
+        results.sort(function(a, b) {
+          return a.rating - b.rating;
+        });
+
+        res.contentType('json');
+        res.send(results);
+      });
+    });
+  });
+
   // Get the matchup data. Should probably cache this somewhere and only
   // recompute after new scores are entered.
   app.get('/matchups', function (req, res) {
@@ -134,7 +178,7 @@ module.exports = function(app) {
             });
             callback(null, stats);
           });
-        };
+      };
       }
 
       var matchups = [];
