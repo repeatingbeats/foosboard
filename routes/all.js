@@ -178,7 +178,7 @@ module.exports = function(app) {
             });
             callback(null, stats);
           });
-      };
+        };
       }
 
       var matchups = [];
