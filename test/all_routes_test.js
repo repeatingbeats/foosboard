@@ -9,8 +9,6 @@ var app = require('../app'),
     app_base_uri = 'http://localhost:' + test_port
 ;
 
-app.listen(test_port);
-
 function seed_players(data_array, callback) {
 
   var players = [];
@@ -41,7 +39,7 @@ function seed_result(data, callback) {
 
 }
 
-exports.renderedRoutes = testCase({
+var testRenderedRoutes = testCase({
 
   setUp: function renderedRoutesSetup(startTest) { 
     startTest();
@@ -101,7 +99,7 @@ exports.renderedRoutes = testCase({
 
 });
 
-exports.dataRoutes = testCase({
+var testDataRoutes = testCase({
 
   setUp: function dataRoutesSetup(startTest) { 
 
@@ -514,5 +512,29 @@ exports.dataRoutes = testCase({
       test.done();
     });
   }
+});
+
+var listening = false;
+
+exports.testRunner = testCase({
+
+  setUp: function(startTest) {
+    if (!listening) {
+      app.listen(test_port, function() {
+        listening = true;
+        startTest();
+      });
+    } else {
+      startTest();
+    }
+  },
+
+  tearDown: function(endTest) {
+    endTest();
+  },
+
+  'rendered routes': testRenderedRoutes,
+  'data routes': testDataRoutes
+
 });
 
