@@ -5,6 +5,7 @@ var app = require('../app'),
     request = require('request'),
     async = require('async'),
     testCase = require('nodeunit').testCase,
+    querystring = require('querystring'),
     test_port = 8091,
     app_base_uri = 'http://localhost:' + test_port
 ;
@@ -374,7 +375,7 @@ var testDataRoutes = testCase({
       test.expect(21);
       request({
         uri: app_base_uri + '/results/' + result._id +
-                            '?slloyd_foo=' + app.config.slloyd_foo,
+             '?' + querystring.stringify({ slloyd_foo: app.config.slloyd_foo }),
         method: 'DELETE'
       }, function (err, res, body) {
         // I never said this all had to make sense
@@ -466,7 +467,7 @@ var testDataRoutes = testCase({
     test.expect(2);
     request({
       uri: app_base_uri + '/results/durr' +
-                          '?slloyd_foo=' + app.config.slloyd_foo,
+           '?' + querystring.stringify({ slloyd_foo: app.config.slloyd_foo }),
       method: 'DELETE'
     }, function (err, res, body) {
       test.equal(res.statusCode, 400);
