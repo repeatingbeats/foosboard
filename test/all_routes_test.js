@@ -96,6 +96,16 @@ var testRenderedRoutes = testCase({
       app.verify = real_verify;
       test.done();
     }); 
+  },
+
+  'GET /player_ratings': function (test) {
+    test.expect(1);
+    request({
+      uri: app_base_uri + '/player_ratings'
+    }, function (err, res, body) {
+      test.equal(res.statusCode, 200);
+      test.done();
+    });
   }
 
 });
