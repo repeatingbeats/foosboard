@@ -6,7 +6,7 @@ This is a foosboard. Prove your dominance.
 
 2. You probably want to use npm to manage your node packages. Learn about that [here](https://github.com/isaacs/npm)
 
-3. Current required packages are express, mongoose, connect, qs, mime, mongodb, connect-mongodb, jade, async, request, and nodeunit
+3. Current required packages are express, mongoose, connect, qs, mime, mongodb, connect-mongodb, jade, async, request, nodeunit, and jake
         npm install <package_name>
 
 4. You need a local mongodb server. More info [here](http://www.mongodb.org/downloads)
