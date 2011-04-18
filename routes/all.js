@@ -125,16 +125,16 @@ module.exports = function(app) {
         });
 
         // Turn into an array; sort by decreasing rating.
-        var results = [];
+        var ratingsArray = [];
         for (var player in ratings) {
-          results.push({name: player, rating: ratings[player]});
+          ratingsArray.push({name: player, rating: ratings[player]});
         }
-        results.sort(function(a, b) {
+        ratingsArray.sort(function(a, b) {
           return a.rating - b.rating;
         });
 
         res.contentType('json');
-        res.send(results);
+        res.send(ratingsArray);
       });
     });
   });
